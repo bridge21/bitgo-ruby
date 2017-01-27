@@ -1,4 +1,5 @@
 require_relative 'bitgo/client'
+require_relative 'bitgo/utils'
 require 'uri'
 require 'net/http'
 require 'json'
