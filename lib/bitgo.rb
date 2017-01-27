@@ -1,4 +1,4 @@
-require 'bitgo/v1/api'
+require_relative 'bitgo/client'
 require 'uri'
 require 'net/http'
 require 'json'
