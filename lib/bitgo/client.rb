@@ -9,8 +9,9 @@ module Bitgo
     PROD = 'https://www.bitgo.com/api/v1'
     EXPRESS = 'http://127.0.0.1:3080/api/v1'
 
-    def initialize(end_point)
-      @end_point = end_point
+    def initialize
+      @end_point = Figaro.env.bitgo_end_point!
+      self.session_token = Figaro.env.bitgo_session_token!
     end
 
     ###############
@@ -44,10 +45,6 @@ module Bitgo
 
     def send_otp(force_sms: false)
       call :post, '/user/sendotp', forceSMS: force_sms
-    end
-
-    def session_information
-      call :get, '/user/session'
     end
 
     def unlock(otp:, duration_seconds: 600)
@@ -240,7 +237,7 @@ module Bitgo
     # Creates a new address for an existing wallet. BitGo wallets consist of two independent chains of addresses, designated 0 and 1.
     # The 0-chain is typically used for receiving funds, while the 1-chain is used internally for creating change when spending from a wallet.
     # It is considered best practice to generate a new receiving address for each new incoming transaction, in order to help maximize privacy.
-    def create_address(wallet_id:, chain:)
+    def create_address(wallet_id:, chain: '0')
       call :post, '/wallet/' + wallet_id + '/address/' + chain
     end
 
