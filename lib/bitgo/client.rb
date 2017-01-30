@@ -9,9 +9,19 @@ module Bitgo
     PROD = 'https://www.bitgo.com/api/v1'
     EXPRESS = 'http://127.0.0.1:3080/api/v1'
 
-    def initialize
-      @end_point = Figaro.env.bitgo_end_point!
-      self.session_token = Figaro.env.bitgo_session_token!
+    def initialize(endpoint, opts = {})
+      @end_point = endpoint
+      @opts = opts
+    end
+
+    def self.instance
+      instance = new(Figaro.env.bitgo_end_point!,
+                     proxy_username: Figaro.env.proxy_username,
+                     proxy_password: Figaro.env.proxy_password,
+                     proxy_host: Figaro.env.proxy_host,
+                     proxy_port: Figaro.env.proxy_port)
+
+      instance.session_token = Figaro.env.bitgo_session_token!
     end
 
     ###############
@@ -346,7 +356,7 @@ module Bitgo
       uri = URI(@end_point + path)
 
       # Build the connection
-      http = Net::HTTP.new(uri.host, uri.port)
+      http = Net::HTTP.new(uri.host, uri.port, @opts[:proxy_host], @opts[:proxy_port], @opts[:proxy_username], @opts[:proxy_password])
 
       if uri.scheme == 'https'
         http.use_ssl = true
