@@ -22,6 +22,7 @@ module Bitgo
                      proxy_port: Figaro.env.proxy_port)
 
       instance.session_token = Figaro.env.bitgo_session_token!
+      return instance
     end
 
     ###############
