@@ -15,7 +15,7 @@ module Bitgo
     end
 
     def self.instance
-      instance = new(Figaro.env.bitgo_end_point!,
+      instance = new(Figaro.env.bitgo_end_point,
                      proxy_username: Figaro.env.proxy_username,
                      proxy_password: Figaro.env.proxy_password,
                      proxy_host: Figaro.env.proxy_host,
