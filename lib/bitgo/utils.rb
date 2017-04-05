@@ -31,6 +31,7 @@ module Bitgo
           confirmations: tx['confirmations'],
           blockhash: tx['blockhash'],
           txid: tx['id'],
+          normalized_hash: tx['normalizedHash'],
           instant: tx['instant'],
           instantId: tx['instantId'],
           height: tx['height'],
